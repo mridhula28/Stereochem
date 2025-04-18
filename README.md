@@ -78,4 +78,6 @@ To install the package, run
 ### TEST 1 
 Hello, c'est Cath
 
+### TEST 2
+Hello, it's Cath... again
 
