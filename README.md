@@ -80,4 +80,9 @@ Hello, c'est Cath
 
 Je teste mes skills
 
+<<<<<<< HEAD
+=======
+Je RE-teste mes skills 
+
+>>>>>>> lucie
 Hollaaaaaa 
