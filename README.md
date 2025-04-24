@@ -73,5 +73,4 @@ To install the package, run
 ```
 (conda_env) $ pip install tox
 (conda_env) $ tox
-```
-J'adore cathe!!! 
+
