@@ -1,28 +1,31 @@
-"""Example module to get you started."""
+import streamlit as st
+from streamlit_ketcher import st_ketcher
+import pubchempy as pub
+from rdkit import Chem 
+from rdkit.Chem import Draw
+
+#setting page title and icon
+st.set_page_config(page_title= "StereoChem", page_icon= ":test_tube:", layout= "wide") 
+
+#Head setter 
+st.title('Stereoisomers in Chemistry')
+st.caption("Practical Proramming In Chemistry miniproject")
+st.markdown("Draw all possible stereoisomers of the inputed molecule")
+
+#molecule drawing frame 
+molecule_name = st.sidebar.text_input("Enter the name of the molecule")
+if molecule_name:
+    try:
+        compounds = pub.get_compounds(molecule_name, 'name')
+        if compounds:
+            smiles_mol = compounds[0].isomeric_smiles
+            mol = Chem.MolFromSmiles(smiles_mol)
+            st.sidebar.image(Draw.MolToImage(mol), caption=f"{molecule_name} structure")
+            st.sidebar.markdown(f"Smile code: {smiles_mol}")
+        else:
+            st.warning("No compound found. Please check the molecule name.")
+    except Exception as e:
+        st.error(f"Error fetching data: {e}")
+smile_code = st_ketcher(molecule_name)
 
 
-def hello_smiles(smiles: str) -> str:
-    """
-    Return a greeting string that incorporates the given smiles.
-
-    Parameters
-    ----------
-    smiles : str
-        A text string representing a SMILES (Simplified
-        Molecular Input Line Entry System) notation or any string.
-
-    Returns
-    -------
-    str
-        A greeting message incorporating the input smiles.
-
-    Examples
-    --------
-    >>> hello_smiles("C(=O)O")
-    'Hello, C(=O)O!'
-    """
-    return f"Hello, {smiles}!"
-
-
-if __name__ == "__main__":
-    print(hello_smiles("C(=O)O"))
