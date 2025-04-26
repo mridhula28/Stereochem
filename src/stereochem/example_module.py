@@ -84,7 +84,10 @@ if smile_code:  # Only proceed if user has drawn something
 
         # Compare with generated stereoisomers
         if molecule_name and 'isomer_set_RS_EZ' in locals():
-            if drawn_canon_smiles in isomer_set_RS_EZ:
+            # Normalize all generated isomers as canonical SMILES
+            canon_isomer_set = {Chem.MolToSmiles(Chem.MolFromSmiles(sm), isomericSmiles=True, canonical=True) for sm in isomer_set_RS_EZ}
+            
+            if drawn_canon_smiles in canon_isomer_set:
                 st.success("This stereoisomer matches one of the possible stereoisomers.")
             else:
                 st.warning("This stereoisomer is NOT among the generated stereoisomers.")
