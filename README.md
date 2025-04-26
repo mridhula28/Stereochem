@@ -2,7 +2,7 @@
 
 ![Coverage Status](assets/coverage-badge.svg)
 
-<h1 align="center">/Users/dheepa/Desktop/IMG_2039.HEIC
+<h1 align="center">
 StereoChem : Explore the world of isomers through a fun game 
 </h1>
 
