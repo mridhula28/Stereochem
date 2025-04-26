@@ -1,6 +1,8 @@
 ![Project Logo](assets/banner1.png)
 
 ![Coverage Status](assets/coverage-badge.svg)
+![Coverage Status](assets/github.png)
+![Coverage Status](assets/python.png)
 
 <h1 align="center">
 StereoChem : Explore the world of isomers through a fun game 
