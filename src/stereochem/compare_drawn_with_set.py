@@ -1,6 +1,8 @@
 # compare the smile of the drawn molecule with the simles of the set of stereoisomers
 
 import streamlit as st
+from rdkit import Chem 
+from rdkit.Chem import Draw
 from stereochem.generate_isomers import generate_isomers
 from stereochem.example_module import example_module
 
