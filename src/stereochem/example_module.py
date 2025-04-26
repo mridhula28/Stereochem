@@ -41,3 +41,28 @@ if molecule_name:
 smile_code = st_ketcher(molecule_name)
 
 
+#Display answers
+if "show_answers" not in st.session_state:
+    st.session_state["show_answers"] = False
+
+#Create two columns to place the two buttons side by side
+col1, col2 = st.columns(2)
+
+with col1:
+    if st.button("Show Answers"):
+        st.session_state["show_answers"] = True
+
+with col2:
+    if st.button("Hide Answers"):
+        st.session_state["show_answers"] = False
+
+#Display isomers if enabled
+if molecule_name and isomer_set_RS_EZ and st.session_state["show_answers"]:
+    st.subheader("All possible stereoisomers")
+    cols = st.columns(4)
+    for i, isomer_smiles in enumerate(sorted(isomer_set_RS_EZ)):
+        mol = Chem.MolFromSmiles(isomer_smiles)
+        img = Draw.MolToImage(mol, size=(200, 200))
+        col = cols[i % 4]
+        with col:
+            st.image(img, caption=isomer_smiles, use_container_width=True)
