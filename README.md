@@ -1,6 +1,5 @@
 ![Project Logo](assets/banner1.png)
 
-![Coverage Status](assets/coverage-badge.svg)
 ![Coverage Status](assets/github.png)
 ![Coverage Status](assets/python.png)
 
