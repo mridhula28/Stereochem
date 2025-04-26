@@ -1,8 +1,8 @@
-![Project Logo](assets/banner.png)
+![Project Logo](assets/banner1.png)
 
 ![Coverage Status](assets/coverage-badge.svg)
 
-<h1 align="center">
+<h1 align="center">/Users/dheepa/Desktop/IMG_2039.HEIC
 StereoChem : Explore the world of isomers through a fun game 
 </h1>
 
