@@ -20,14 +20,14 @@ if smile_code:  # Only proceed if user has drawn something
         # Compare with generated stereoisomers
         if molecule_name and isomer_set_RS_EZ:
             canon_isomer_set = [
-                (Chem.MolFromSmiles(sm), Chem.MolToSmiles(Chem.MolFromSmiles(sm), isomericSmiles=True, canonical=True))
-                for sm in isomer_set_RS_EZ
+                (Chem.MolFromSmiles(smile), Chem.MolToSmiles(Chem.MolFromSmiles(smile), isomericSmiles=True, canonical=True))
+                for smile in isomer_set_RS_EZ
             ]
 
             mols = []
             highlight = []
-            for mol, canon_sm in canon_isomer_set:
-                if drawn_canon_smiles == canon_sm:
+            for mol, canon_smile in canon_isomer_set:
+                if drawn_canon_smiles == canon_smile:
                     mols.append(mol)
                     highlight.append(True)  # Correct match
                 else:
