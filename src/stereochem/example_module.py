@@ -172,7 +172,7 @@ with tab2:
                         st.session_state.score = len(st.session_state.correct_molecules)  # "st.session_state.score += 1" was not working
                         
                         if len(st.session_state.correct_molecules) == len(canon_isomer_set):
-                            st.success("Congratulations! You found all the stereoisomers! 🎉")
+                            st.success("Congratulations! You found all the stereoisomers!")
                             st.balloons()
                     
                     message_placeholder.success("This stereoisomer matches one of the possible stereoisomers!")
