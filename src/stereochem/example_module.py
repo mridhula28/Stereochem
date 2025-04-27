@@ -185,17 +185,19 @@ with tab2:
         if st.session_state.correct_molecules:
             st.subheader("Previously Correct Molecules")
     
-        # Create columns dynamically based on the number of correct molecules
-        num_molecules = len(st.session_state.correct_molecules)
-        cols = st.columns(num_molecules)  # Create as many columns as there are molecules
+            # Create columns dynamically based on the number of correct molecules
+            num_molecules = len(st.session_state.correct_molecules)
 
-        for i, correct_smiles in enumerate(st.session_state.correct_molecules):
-            mol = Chem.MolFromSmiles(correct_smiles)
-            img = Draw.MolToImage(mol, size=(100, 100))  # You can adjust the size
+            if num_molecules > 0:
+                cols = st.columns(num_molecules)  # Create as many columns as there are molecules
 
-            # Display the molecule in the corresponding column
-            with cols[i]:
-                st.image(img, caption=correct_smiles, use_container_width=True)
+                for i, correct_smiles in enumerate(st.session_state.correct_molecules):
+                    mol = Chem.MolFromSmiles(correct_smiles)
+                    img = Draw.MolToImage(mol, size=(100, 100))  # You can adjust the size
+
+                # Display the molecule in the corresponding column
+                    with cols[i]:
+                        st.image(img, caption=correct_smiles, use_container_width=True)
 
     else:
         st.info("Please input a molecule name or draw a molecule first.")
