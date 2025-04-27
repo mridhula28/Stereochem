@@ -13,14 +13,19 @@ score = 0
 #setting page title and icon
 st.set_page_config(page_title= "StereoChem", page_icon= ":test_tube:", layout= "wide") 
 
-isomer_set_RS_EZ = None
+
 
 #Head setter, placeholders
+=======
+
+isomer_set_RS_EZ = None
+
 st.title('Stereoisomers in Chemistry')
 st.caption("Practical Programming In Chemistry miniproject")
 points = st.empty() # placeholder for point 
 image = st.empty() # placeholder for images 
 message = st.empty() # placeholder for messages 
+
 st.markdown("Draw all possible stereoisomers of the inputed molecule")
 
 def scores (score, points): 
