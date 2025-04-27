@@ -170,14 +170,13 @@ with tab2:
                     if drawn_canon_smiles not in st.session_state.correct_molecules:
                         st.session_state.correct_molecules.append(drawn_canon_smiles)
                         st.session_state.score = len(st.session_state.correct_molecules)  # "st.session_state.score += 1" was not working
-                        
-                        if len(st.session_state.correct_molecules) == len(canon_isomer_set):
-                            st.success("Congratulations! You found all the stereoisomers!")
-                            st.balloons()
                     
                     message_placeholder.success("This stereoisomer matches one of the possible stereoisomers!")
                     image_placeholder.image(Draw.MolToImage(drawn_mol), caption="Drawn Molecule", width=150)
                     st.markdown(f"**Drawn SMILES:** `{drawn_canon_smiles}`")
+                    if len(st.session_state.correct_molecules) == len(canon_isomer_set):
+                            st.success("Congratulations! You found all the stereoisomers!")
+                            st.balloons()
                 else:
                     message_placeholder.warning("This stereoisomer is NOT among the generated stereoisomers.")
             else:
