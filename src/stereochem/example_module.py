@@ -181,11 +181,21 @@ with tab2:
         # --- Display current score ---
         points_placeholder.markdown(f"### Score: {st.session_state.score}")
         
+        # Display all previously correct molecules horizontally
         if st.session_state.correct_molecules:
             st.subheader("Previously Correct Molecules")
-            for correct_smiles in st.session_state.correct_molecules:
+    
+             # Create columns dynamically based on the number of correct molecules
+             num_molecules = len(st.session_state.correct_molecules)
+             cols = st.columns(num_molecules)  # Create as many columns as there are molecules
+
+            for i, correct_smiles in enumerate(st.session_state.correct_molecules):
                 mol = Chem.MolFromSmiles(correct_smiles)
-                st.image(Draw.MolToImage(mol, size=(150, 150)), caption=correct_smiles)
+                img = Draw.MolToImage(mol, size=(150, 150))  # You can adjust the size
+
+                # Display the molecule in the corresponding column
+                with cols[i]:
+                    st.image(img, caption=correct_smiles, use_container_width=True)
 
     else:
         st.info("Please input a molecule name or draw a molecule first.")
