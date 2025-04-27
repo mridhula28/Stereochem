@@ -187,7 +187,7 @@ with tab2:
         
         # Display all previously correct molecules horizontally
         if st.session_state.correct_molecules:
-            st.subheader("Previously Correct Molecules")
+            st.subheader("Found Correct Molecules")
     
             # Create columns dynamically based on the number of correct molecules
             num_molecules = len(st.session_state.correct_molecules)
