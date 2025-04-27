@@ -185,9 +185,9 @@ with tab2:
         if st.session_state.correct_molecules:
             st.subheader("Previously Correct Molecules")
     
-             # Create columns dynamically based on the number of correct molecules
-             num_molecules = len(st.session_state.correct_molecules)
-             cols = st.columns(num_molecules)  # Create as many columns as there are molecules
+        # Create columns dynamically based on the number of correct molecules
+        num_molecules = len(st.session_state.correct_molecules)
+        cols = st.columns(num_molecules)  # Create as many columns as there are molecules
 
             for i, correct_smiles in enumerate(st.session_state.correct_molecules):
                 mol = Chem.MolFromSmiles(correct_smiles)
