@@ -13,9 +13,11 @@ from stereochem.generate_isomers import generate_isomers
 #setting page title and icon
 st.set_page_config(page_title= "StereoChem", page_icon= ":test_tube:", layout= "wide") 
 
+isomer_set_RS_EZ = None
+
 #Head setter 
 st.title('Stereoisomers in Chemistry')
-st.caption("Practical Proramming In Chemistry miniproject")
+st.caption("Practical Programming In Chemistry miniproject")
 st.markdown("Draw all possible stereoisomers of the inputed molecule")
 
 
