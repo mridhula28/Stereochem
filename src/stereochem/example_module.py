@@ -20,6 +20,9 @@ if "input_mode" not in st.session_state:
 if "show_answers" not in st.session_state:
     st.session_state.show_answers = False
 
+if "correct_molecules" not in st.session_state:
+    st.session_state.correct_molecules = []
+
 # --- Page Title ---
 st.title('Stereoisomers in Chemistry')
 st.caption("Practical Programming In Chemistry miniproject")
@@ -167,6 +170,7 @@ with tab2:
                     message_placeholder.success("✅ This stereoisomer matches one of the possible stereoisomers!")
                     image_placeholder.image(Draw.MolToImage(drawn_mol), caption="Drawn Molecule", width=150)
                     st.markdown(f"**Drawn SMILES:** `{drawn_canon_smiles}`")
+                    st.session_state.correct_molecules.append(drawn_canon_smiles)
                 else:
                     message_placeholder.warning("❌ This stereoisomer is NOT among the generated stereoisomers.")
             else:
@@ -174,6 +178,12 @@ with tab2:
 
         # --- Display current score ---
         points_placeholder.markdown(f"### Score: {st.session_state.score}")
+        
+        if st.session_state.correct_molecules:
+    st.subheader("Previously Correct Molecules")
+    for correct_smiles in st.session_state.correct_molecules:
+        mol = Chem.MolFromSmiles(correct_smiles)
+        st.image(Draw.MolToImage(mol, size=(150, 150)), caption=correct_smiles)
 
     else:
         st.info("Please input a molecule name or draw a molecule first.")
