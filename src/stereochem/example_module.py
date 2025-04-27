@@ -166,11 +166,13 @@ with tab2:
 
                 # Check if drawn structure matches any isomer
                 if drawn_canon_smiles in canon_isomer_set:
-                    st.session_state.score += 1
+                    if drawn_canon_smiles not in st.session_state.correct_molecules:
+                        st.session_state.correct_molecules.append(drawn_canon_smiles)
+                        st.session_state.score += 1
+                    
                     message_placeholder.success("This stereoisomer matches one of the possible stereoisomers!")
                     image_placeholder.image(Draw.MolToImage(drawn_mol), caption="Drawn Molecule", width=150)
                     st.markdown(f"**Drawn SMILES:** `{drawn_canon_smiles}`")
-                    st.session_state.correct_molecules.append(drawn_canon_smiles)
                 else:
                     message_placeholder.warning("This stereoisomer is NOT among the generated stereoisomers.")
             else:
