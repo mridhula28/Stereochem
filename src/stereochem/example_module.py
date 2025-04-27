@@ -193,7 +193,7 @@ with tab2:
 
                 for i, correct_smiles in enumerate(st.session_state.correct_molecules):
                     mol = Chem.MolFromSmiles(correct_smiles)
-                    img = Draw.MolToImage(mol, size=(100, 100))  # You can adjust the size
+                    img = Draw.MolToImage(mol, size=(50, 50))  # You can adjust the size
 
                 # Display the molecule in the corresponding column
                     with cols[i]:
