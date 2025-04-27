@@ -41,6 +41,7 @@ with tab1:
         st.session_state.input_mode = "draw"
         st.session_state.score = 0 # reset score to 0 if a new molecule is drawn
         st.session_state.molecule_name = ""  # <- clear the NAME properly!!
+        st.session_state.correct_molecules = []
 
 # --- Sidebar for Molecule Input ---
 with st.sidebar:
@@ -57,7 +58,7 @@ with st.sidebar:
         if molecule_name_input:
             st.session_state.input_mode = "name"
             st.session_state.drawn_smiles = ""  # clear drawn smiles if user typed a name
-
+            st.session_state.correct_molecules = []
 
     # --- Display the molecule preview dynamically based on input_mode ---
     if st.session_state.input_mode == "name" and st.session_state.molecule_name:
@@ -168,7 +169,7 @@ with tab2:
                 if drawn_canon_smiles in canon_isomer_set:
                     if drawn_canon_smiles not in st.session_state.correct_molecules:
                         st.session_state.correct_molecules.append(drawn_canon_smiles)
-                        st.session_state.score += 1
+                        st.session_state.score = len(st.session_state.correct_molecules)  # "st.session_state.score += 1" was not working
                     
                     message_placeholder.success("This stereoisomer matches one of the possible stereoisomers!")
                     image_placeholder.image(Draw.MolToImage(drawn_mol), caption="Drawn Molecule", width=150)
