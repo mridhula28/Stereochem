@@ -197,7 +197,7 @@ with tab2:
 
                 # Display the molecule in the corresponding column
                     with cols[i]:
-                        st.image(img, caption=correct_smiles, use_container_width=True)
+                        st.image(img, caption=correct_smiles, width=120)
 
     else:
         st.info("Please input a molecule name or draw a molecule first.")
