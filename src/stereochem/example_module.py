@@ -167,23 +167,23 @@ with tab2:
                 # Check if drawn structure matches any isomer
                 if drawn_canon_smiles in canon_isomer_set:
                     st.session_state.score += 1
-                    message_placeholder.success("✅ This stereoisomer matches one of the possible stereoisomers!")
+                    message_placeholder.success("This stereoisomer matches one of the possible stereoisomers!")
                     image_placeholder.image(Draw.MolToImage(drawn_mol), caption="Drawn Molecule", width=150)
                     st.markdown(f"**Drawn SMILES:** `{drawn_canon_smiles}`")
                     st.session_state.correct_molecules.append(drawn_canon_smiles)
                 else:
-                    message_placeholder.warning("❌ This stereoisomer is NOT among the generated stereoisomers.")
+                    message_placeholder.warning("This stereoisomer is NOT among the generated stereoisomers.")
             else:
-                message_placeholder.error("⚠️ Could not parse the drawn SMILES. Please draw a valid molecule.")
+                message_placeholder.error("Could not parse the drawn SMILES. Please draw a valid molecule.")
 
         # --- Display current score ---
         points_placeholder.markdown(f"### Score: {st.session_state.score}")
         
         if st.session_state.correct_molecules:
-    st.subheader("Previously Correct Molecules")
-    for correct_smiles in st.session_state.correct_molecules:
-        mol = Chem.MolFromSmiles(correct_smiles)
-        st.image(Draw.MolToImage(mol, size=(150, 150)), caption=correct_smiles)
+            st.subheader("Previously Correct Molecules")
+            for correct_smiles in st.session_state.correct_molecules:
+                mol = Chem.MolFromSmiles(correct_smiles)
+                st.image(Draw.MolToImage(mol, size=(150, 150)), caption=correct_smiles)
 
     else:
         st.info("Please input a molecule name or draw a molecule first.")
