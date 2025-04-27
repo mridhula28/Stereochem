@@ -3,17 +3,20 @@ from streamlit_ketcher import st_ketcher
 import pubchempy as pub
 from rdkit import Chem 
 from rdkit.Chem import Draw
+from typing import Any
 import sys
 import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from stereochem.generate_isomers import generate_isomers
-from typing import Any
 
 score = 0
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 #setting page title and icon
 st.set_page_config(page_title= "StereoChem", page_icon= ":test_tube:", layout= "wide") 
 
+
+
+#Head setter, placeholders
+=======
 
 isomer_set_RS_EZ = None
 
