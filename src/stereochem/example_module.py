@@ -148,6 +148,17 @@ with tab2:
                 mol = Chem.MolFromSmiles(isomer_smiles)
                 img = Draw.MolToImage(mol, size=(200, 200))
                 col = cols[i % 4]
+
+                # --- IUPAC name ---
+
+                '''try:
+                    results = pub.get_compounds(isomer_smiles, namespace='smiles')
+                    if results and results[0].iupac_name:
+                        iupac_name = results[0].iupac_name
+                    else:
+                        iupac_name = "Unknown Name"
+                except Exception as e:
+                    iupac_name = "Unknown Name"'''
                 with col:
                     st.image(img, caption=isomer_smiles, use_container_width=True)
 
@@ -276,7 +287,3 @@ with tab3:
         if st.session_state.show_chiral_atoms:
             st.subheader("All chiral atoms")
             st.image(img, caption="chiral_atoms")
-            
-            
-
-    
