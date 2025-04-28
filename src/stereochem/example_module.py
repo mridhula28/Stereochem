@@ -89,6 +89,12 @@ with tab2:
     st.subheader("Isomers")
     st.markdown("Draw all possible stereoisomers of the input molecule.")
 
+    # --- Placeholders for feedback ---
+    points_placeholder = st.empty()
+    message_placeholder = st.empty()
+    subheader_placeholder = st.empty ()
+    correct_molecules_placeholder = st.empty()
+
     # --- Drawing input ---
     drawn_isomers = st_ketcher(key="draw_molecule_tab2")
 
@@ -113,11 +119,6 @@ with tab2:
 
     if "score" not in st.session_state:
         st.session_state.score = 0
-
-    # --- Placeholders for feedback ---
-    points_placeholder = st.empty()
-    message_placeholder = st.empty()
-    image_placeholder = st.empty()
 
     # --- Buttons ---
     col1, col2, col3, col4 = st.columns(4)
@@ -172,10 +173,10 @@ with tab2:
                         st.session_state.score = len(st.session_state.correct_molecules)  # "st.session_state.score += 1" was not working
                     
                     message_placeholder.success("This stereoisomer matches one of the possible stereoisomers!")
-                    image_placeholder.image(Draw.MolToImage(drawn_mol), caption="Drawn Molecule", width=150)
+                    st.image(Draw.MolToImage(drawn_mol), caption="Drawn Molecule", width=150)
                     st.markdown(f"**Drawn SMILES:** `{drawn_canon_smiles}`")
                     if len(st.session_state.correct_molecules) == len(canon_isomer_set):
-                            st.success("Congratulations! You found all the stereoisomers!")
+                            message_placeholder.success("Congratulations! You found all the stereoisomers!")
                             st.balloons()
                 else:
                     message_placeholder.warning("This stereoisomer is NOT among the generated stereoisomers.")
