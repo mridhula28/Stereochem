@@ -29,7 +29,7 @@ st.caption("Practical Programming In Chemistry miniproject")
 
 
 # --- Tabs for Drawing and Isomers ---
-tab1, tab2 = st.tabs(["Input a molecule", "Draw isomers"])
+tab1, tab2, tab3 = st.tabs(["Input a molecule", "Draw isomers", "Chirality"])
 
 # --- Tab 1: Input by Drawing ---
 with tab1:
@@ -45,6 +45,7 @@ with tab1:
 
 # --- Sidebar for Molecule Input ---
 with st.sidebar:
+    st.markdown("""<style> [data-testid="stSidebar"] {background-color: lightblue;} </style>""", unsafe_allow_html=True)
     st.title("Molecule Input")
 
     if "molecule_name" not in st.session_state:
@@ -206,3 +207,76 @@ with tab2:
 
     else:
         st.info("Please input a molecule name or draw a molecule first.")
+
+# --- Tab 3: Chirality ---
+with tab3: 
+    st.subheader("Chirality")
+    st.markdown("Find all the chiral centers of the molecule.")
+    message_placeholder = st.empty()
+    chiral_atoms = []
+
+    # --- Determining chirality from smiles ---
+    smiles_input = None
+    if st.session_state.input_mode == "name" and st.session_state.molecule_name:
+        try:
+            compounds = pub.get_compounds(st.session_state.molecule_name, 'name')
+            if compounds:
+                smiles_input = compounds[0].isomeric_smiles
+                mol = Chem.MolFromSmiles(smiles_input)
+        except:
+            pass
+        mol = Chem.MolFromSmiles(smiles_input)
+        for atom in mol.GetAtoms(): 
+            if atom.HasProp('_ChiralityPossible'): 
+                chiral_atoms.append(atom.GetIdx())
+        img = Draw.MolToImage(mol, highlightAtoms=chiral_atoms, size=(120,120))
+
+    elif st.session_state.input_mode == "draw" and "drawn_smiles" in st.session_state:
+        smiles_input = st.session_state.drawn_smiles
+
+    # --- Draw the numbered atoms in a molecule ---
+    for atom in mol.GetAtoms():
+        atom.SetProp("atomNote", str(atom.GetIdx()))
+    img = Draw.MolToImage(mol, size=(200, 200))
+    st.image(img, caption="Molecule with atom numbers")
+
+    # ---Boxes---
+    st.markdown("Tick the boxes whose number corresponds to a chiral atom")
+    number = mol.GetNumAtoms()
+    c1, c2 = st.columns (2)
+    user_selection = []
+
+    with c1: 
+        for i in range (0,int(number//2)): 
+            if st.checkbox(f"Atom {i}"):
+                user_selection.append(i)
+    
+    with c2:
+        for i in range(int(number // 2), number):
+            if st.checkbox(f"Atom {i}"):
+                user_selection.append(i)
+
+    # --- Check user input ---
+    if user_selection == chiral_atoms: 
+        message_placeholder.success("Congratulations! You found all the chiral atoms!")
+        st.balloons()
+
+    # --- Buttons ---
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Show Chiral Atoms"):
+            st.session_state.show_chiral_atoms = True
+    with col2:
+        if st.button("Hide Chiral Atoms"):
+            st.session_state.show_chiral_atoms = False
+
+
+    if smiles_input:
+        # --- Display answer if requested ---
+        if st.session_state.show_chiral_atoms:
+            st.subheader("All chiral atoms")
+            st.image(img, caption="chiral_atoms")
+            
+            
+
+    
