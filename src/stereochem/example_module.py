@@ -240,7 +240,7 @@ with tab3:
         for atom in mol.GetAtoms(): 
             if atom.HasProp('_ChiralityPossible'): 
                 chiral_atoms.append(atom.GetIdx())
-        img = Draw.MolToImage(mol, highlightAtoms=chiral_atoms, size=(120,120))
+        img_highlight = Draw.MolToImage(mol, highlightAtoms=chiral_atoms, size=(120,120))
 
     elif st.session_state.input_mode == "draw" and "drawn_smiles" in st.session_state:
         smiles_input = st.session_state.drawn_smiles
@@ -286,4 +286,4 @@ with tab3:
         # --- Display answer if requested ---
         if st.session_state.show_chiral_atoms:
             st.subheader("All chiral atoms")
-            st.image(img, caption="chiral_atoms")
+            st.image(img_highlight, caption="chiral_atoms")
