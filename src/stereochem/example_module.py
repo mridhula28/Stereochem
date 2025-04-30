@@ -246,6 +246,7 @@ with tab3:
         smiles_input = st.session_state.drawn_smiles
 
     # --- Draw the numbered atoms in a molecule ---
+    mol = Chem.MolFromSmiles(smiles_input)
     for atom in mol.GetAtoms():
         atom.SetProp("atomNote", str(atom.GetIdx()))
     img = Draw.MolToImage(mol, size=(200, 200))
