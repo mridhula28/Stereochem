@@ -148,19 +148,19 @@ with tab2:
                 mol = Chem.MolFromSmiles(isomer_smiles)
                 img = Draw.MolToImage(mol, size=(200, 200))
                 col = cols[i % 4]
+                 # --- IUPAC name ---
 
-                # --- IUPAC name ---
-
-                '''try:
+                try:
                     results = pub.get_compounds(isomer_smiles, namespace='smiles')
                     if results and results[0].iupac_name:
                         iupac_name = results[0].iupac_name
                     else:
                         iupac_name = "Unknown Name"
                 except Exception as e:
-                    iupac_name = "Unknown Name"'''
+                    iupac_name = "Unknown Name"
                 with col:
-                    st.image(img, caption=isomer_smiles, use_container_width=True)
+                    st.image(img, caption=iupac_name, use_container_width=True)
+       
 
         # --- Display hint if requested ---
         if st.session_state.hint:
@@ -185,8 +185,6 @@ with tab2:
                         st.session_state.score = len(st.session_state.correct_molecules)  # "st.session_state.score += 1" was not working
                     
                     message_placeholder.success("This stereoisomer matches one of the possible stereoisomers!")
-                    st.image(Draw.MolToImage(drawn_mol), caption="Drawn Molecule", width=150)
-                    st.markdown(f"**Drawn SMILES:** `{drawn_canon_smiles}`")
                     if len(st.session_state.correct_molecules) == len(canon_isomer_set):
                             message_placeholder.success("Congratulations! You found all the stereoisomers!")
                             st.balloons()
