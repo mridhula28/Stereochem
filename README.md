@@ -12,29 +12,23 @@ StereoChem : Explore the world of isomers through a fun game
 ### Collaborators: Catherina Carrer, Lucie Frenot, Mridhula Jayasankar ＆ Rania Doukkali
 #### Practical Programming in Chemistry @ EPFL
 
-## 🖊 Introduction 
-
-This project was created as part of the Practical Programming in Chemistry course at EPFL, Spring 2025. It’s all about diving into the world of coding and getting hands-on with GitHub. As second-year chemistry students, we’re blending science with software to build something cool—and learning a ton along the way!
-
 ## 📖 Package description 
 
-This package allows users to get familiar with the different isomers of any molecule of their choice. It does so through a fun and interactive guessing game, making the learning enjoyable and engaging. Whether you are trying to understand this complicated chapter in chemistry or just wanting to explore a new aspect of this subject, this package offers a lively way to explore isomers. 
+Welcome to the world of isomers! If you are struggling to understand the chapter of isomers in chemistry, then this educational game is for you. 
 
-The main isomers involving this package are: 
--	R and S stereoisomers
-- list all the isomers 
+Through an exciting interactive game, this package unables the user to get familiar with optical stereoisomers and additionally the chirality of a given molecule by making the learning enjoyable and engaging. Whether you are trying to understand this complicated chapter in chemistry or just wanting to explore a new aspect of this subject, this package offers a lively way to explore enantiomers, non-superposable mirror images, and diastereoisomers, non-mirror image optical isomers. 
 
-## ⚛ What are isomers ? 
 
-All chemical molecules can be represented in several ways one of which is the chemical formula- a universal method of notation. When two or more molecules have the same chemical formula but differ in the arrangement of their atoms, they are known as isomers.
+## ⚛ What are isomers and chirality ? 
 
-Their importance in chemistry arises from the fact that two molecules having the same chemical formulas differ in more ways than just their arrangement as this gives rise to different physical and chemical properties. Indeed, the differences can vary from the boiling point to polarization of light to even difference in reactivity with receptors in our body for pharmaceutical chemicals for instance. 
+All chemical molecules can be represented in several ways one of which is the chemical formula, a universal method of notation. When two or more molecules have the same chemical formula but differ in the arrangement of their atoms giving rise to different physical and chemical properties, they are known as isomers.
 
-Explain quickly the isomers which will be encountered in the package!!!!
+Being linked to enantiomers, chirality represents the property of a molecule making it non superposable to its mirror image. Having a hard time finding them? It is easy find a carbon atom with four different constituents and you are all done. 
+
 
 ## 👩‍💻 Installation
 
-Create a new environment, you may also give the environment a different name. 
+Have we motivated you to come along the wonderful experience of StereoChem with us ? Start by creating a new environment! You may also give the environment a different name. 
 
 ```
 conda create -n stereochem python=3.10 
