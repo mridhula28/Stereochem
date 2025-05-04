@@ -111,6 +111,15 @@ with tab2:
     # --- Generate isomers from main molecule ---
     if st.session_state.main_smiles:
         isomer_set = generate_isomers(st.session_state.main_smiles)
+        
+        # --- No stereoisomers button ---
+        no_stereo_button = st.button("No stereoisomers")
+
+        if no_stereo_button and len(isomer_set) <= 1:
+            st.success("Correct! This molecule has no stereoisomers.")
+            st.balloons()
+        elif no_stereo_button and len(isomer_set) > 1:
+            st.error("Incorrect. This molecule has stereoisomers.")
 
         # --- Form for drawing and guessing ---
         with st.form(key="guess_form"):
