@@ -128,36 +128,34 @@ with tab2:
         elif no_stereo_button and len(isomer_set) > 1:
             st.error("Incorrect. This molecule has stereoisomers.")
             
-            # --- Handle submit guess logic ---
-            if submit_isomer and drawn_isomers:
-                drawn_mol = Chem.MolFromSmiles(drawn_isomers)
-                if drawn_mol:
-                    drawn_canon_smiles = Chem.MolToSmiles(drawn_mol, isomericSmiles=True, canonical=True)
+        # --- Handle submit guess logic (independent of "No stereoisomers") ---
+        if submit_isomer and drawn_isomers:
+            drawn_mol = Chem.MolFromSmiles(drawn_isomers)
+            if drawn_mol:
+                drawn_canon_smiles = Chem.MolToSmiles(drawn_mol, isomericSmiles=True, canonical=True)
 
-                    # Check if drawn molecule is a correct stereoisomer
-                    if drawn_canon_smiles in isomer_set and drawn_canon_smiles not in st.session_state.guessed_molecules:
-                        st.session_state.guessed_molecules.add(drawn_canon_smiles)
-                        st.session_state.score += 1
-                        import time
-                        if "start_time" not in st.session_state:
-                            st.session_state.start_time = time.time()
-                        message_placeholder.success("This stereoisomer matches one of the possible stereoisomers!")
-                        st.image(Draw.MolToImage(drawn_mol), caption="Drawn Molecule", width=150)
-                        st.markdown(f"**Drawn SMILES:** `{drawn_canon_smiles}`")
+                # Check if drawn molecule is a correct stereoisomer
+                if drawn_canon_smiles in isomer_set and drawn_canon_smiles not in st.session_state.guessed_molecules:
+                    st.session_state.guessed_molecules.add(drawn_canon_smiles)
+                    st.session_state.score += 1
+                    import time
+                    if "start_time" not in st.session_state:
+                        st.session_state.start_time = time.time()
+                    message_placeholder.success("This stereoisomer matches one of the possible stereoisomers!")
+                    st.image(Draw.MolToImage(drawn_mol), caption="Drawn Molecule", width=150)
+                    st.markdown(f"**Drawn SMILES:** `{drawn_canon_smiles}`")
 
-                        # Check if all stereoisomers have been found
-                        if len(st.session_state.guessed_molecules) == len(isomer_set) and len(st.session_state.guessed_molecules) != 0:
-                            if "end_time_structures" not in st.session_state:
-                                import time
-                                st.session_state.end_time_structures = time.time()
-                                elapsed = st.session_state.end_time_structures - st.session_state.start_time
-                                minutes = int(elapsed // 60)
-                                seconds = int(elapsed % 60)
-                                chrono_placeholder.markdown(f"### Chrono: {minutes} min {seconds} sec")
-                                st.balloons()
-                            else:
-                                message_placeholder.success("🎉 Congratulations! You found all the stereoisomers!")
-
+                    # Check if all stereoisomers have been found
+                    if len(st.session_state.guessed_molecules) == len(isomer_set) and len(st.session_state.guessed_molecules) != 0:
+                        if "end_time_structures" not in st.session_state:
+                            st.session_state.end_time_structures = time.time()
+                            elapsed = st.session_state.end_time_structures - st.session_state.start_time
+                            minutes = int(elapsed // 60)
+                            seconds = int(elapsed % 60)
+                            chrono_placeholder.markdown(f"### Chrono: {minutes} min {seconds} sec")
+                            st.balloons()
+                        else:
+                            message_placeholder.success("🎉 Congratulations! You found all the stereoisomers!")
         # --- Display score ---
         score_placeholder.markdown(f"### Score: {st.session_state.score}")
 
