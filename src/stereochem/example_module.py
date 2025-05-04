@@ -116,9 +116,7 @@ with tab2:
         with st.form(key="guess_form"):
             drawn_isomers = st_ketcher(key="draw_isomers")
             submit_isomer = st.form_submit_button("Submit Guess")
-        
-        # --- No stereoisomers button ---
-        no_stereo_button = st.button("No stereoisomers")
+            no_stereo_button = st.button("No stereoisomers")
 
         if no_stereo_button and len(isomer_set) <= 1:
             st.success("Correct! This molecule has no stereoisomers.")
