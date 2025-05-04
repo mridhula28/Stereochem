@@ -33,11 +33,22 @@ def update_input_molecule(new_smiles):
     st.session_state.show_chiral_atoms = False
 
     # Reset timing-related variables
-    st.session_state.end_time_structures = None
+    if "end_time_structures" in st.session_state: 
+        del st.session_state.end_time_structures
+    if "start_time" in st.session_state:
+        del st.session_state.start_time
+    if "all_iupac_validated" in st.session_state:
+        del st.session_state.all_iupac_validated
 
+        # Reset timing and validation states
+    for key in ["end_time_structures", "start_time", "all_iupac_validated"]:
+        if key in st.session_state:
+            del st.session_state[key]
+
+    # Reset dynamic atom checkbox states
     for key in list(st.session_state.keys()):
         if key.startswith("Atom"):
-            st.session_state[key] = False
+            del st.session_state[key]
 
 # ---- Page Config ----
 st.set_page_config(page_title="StereoChem", page_icon=":test_tube:", layout="wide")
