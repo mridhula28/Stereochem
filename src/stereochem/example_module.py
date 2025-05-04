@@ -10,6 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from stereochem.generate_isomers import generate_isomers
 
 # ---- Initialize session states ----
+
 if "main_smiles" not in st.session_state:
     st.session_state.main_smiles = ""  # The main molecule input (SMILES)
 if "guessed_molecules" not in st.session_state:
@@ -24,6 +25,7 @@ if "show_chiral_atoms" not in st.session_state:
     st.session_state.show_chiral_atoms = False
 
 # ---- Update function for the main molecule ----
+
 def update_input_molecule(new_smiles):
     st.session_state.main_smiles = new_smiles
     st.session_state.guessed_molecules = set()  # Reset guesses when new molecule is input
@@ -32,39 +34,29 @@ def update_input_molecule(new_smiles):
     st.session_state.hint = False
     st.session_state.show_chiral_atoms = False
 
-    # Reset timing-related variables
-    if "end_time_structures" in st.session_state: 
-        del st.session_state.end_time_structures
-    if "start_time" in st.session_state:
-        del st.session_state.start_time
-    if "all_iupac_validated" in st.session_state:
-        del st.session_state.all_iupac_validated
-
-        # Reset timing and validation states
-    for key in ["end_time_structures", "start_time", "all_iupac_validated"]:
-        if key in st.session_state:
-            del st.session_state[key]
-
-    # Reset dynamic atom checkbox states
     for key in list(st.session_state.keys()):
         if key.startswith("Atom"):
-            del st.session_state[key]
+            st.session_state[key] = False
 
 # ---- Page Config ----
+
 st.set_page_config(page_title="StereoChem", page_icon=":test_tube:", layout="wide")
 
 # ---- Page Title ----
+
 st.title('Stereoisomers in Chemistry')
 st.caption("Practical Programming in Chemistry miniproject")
 
 # ---- Tabs for Drawing and Isomers ----
+
 tab1, tab2, tab3 = st.tabs(["Input a molecule", "Draw isomers", "Chirality"])
 
 # ---- Tab 1: Input Molecule (by drawing or name) ----
+
 with tab1:
     st.subheader("Input a Molecule")
     st.markdown("You can input a molecule by drawing it.  \nPlease click on 'Apply' and then on 'Submit Drawing' to input your molecule.")
-    
+
     # --- Drawing input via Ketcher ---
     with st.form(key="draw_form"):
         drawn_smiles = st_ketcher(key="draw_molecule")
@@ -106,6 +98,7 @@ with tab1:
         st.sidebar.info("No molecule selected yet.")
 
 # ---- Tab 2: Show Isomers ----
+
 with tab2:
     st.subheader("Draw and Guess Stereoisomers")
     st.markdown("Draw all possible stereoisomers of the input molecule.  \nPlease click on 'Apply' and then on 'Submit Guess' to submit your drawing.")
@@ -268,6 +261,7 @@ with tab2:
         st.info("Please input a molecule name or draw a molecule first.")
 
 # ---- Tab 3: Chirality ----
+
 with tab3:
     st.subheader("Chirality")
     st.markdown("Find all the chiral centers of the input molecule.")
@@ -304,7 +298,6 @@ with tab3:
                 if st.checkbox(f"Atom {i}", key=f"Atom_{i}"):
                     user_selection.append(i)
 
-
         # --- New: Button for "No chiral atoms" ---
         no_chiral_button = st.button("No chiral atoms")
 
@@ -333,4 +326,3 @@ with tab3:
             st.image(img_highlight, caption="Chiral Centers Highlighted")
     else:
         st.info("Please input a molecule name or draw a molecule first.")
-
