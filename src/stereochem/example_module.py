@@ -32,6 +32,13 @@ def update_input_molecule(new_smiles):
     st.session_state.hint = False
     st.session_state.show_chiral_atoms = False
 
+    # Reset timing-related variables
+    st.session_state.start_time = None
+    st.session_state.end_time_structures = None
+    st.session_state.all_iupac_validated = False
+    st.session_state.validated_names = set()
+    st.session_state.name_validation_status = {}
+
     for key in list(st.session_state.keys()):
         if key.startswith("Atom"):
             st.session_state[key] = False
