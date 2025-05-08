@@ -142,8 +142,6 @@ with tab2:
                     if "start_time" not in st.session_state:
                         st.session_state.start_time = time.time()
                     message_placeholder.success("This stereoisomer matches one of the possible stereoisomers!")
-                    # st.image(Draw.MolToImage(drawn_mol), caption="Drawn Molecule", width=150)
-                    # st.markdown(f"**Drawn SMILES:** `{drawn_canon_smiles}`")
 
                     # Check if all stereoisomers have been found
                     if len(st.session_state.guessed_molecules) == len(isomer_set) and len(st.session_state.guessed_molecules) != 0:
@@ -206,7 +204,7 @@ with tab2:
                 guessed_mol = Chem.MolFromSmiles(guessed_smiles)
                 guessed_img = Draw.MolToImage(guessed_mol, size=(200, 200))
                 col = guessed_cols[i % 4]
-                with col:
+                '''with col:
                     if "name_validation_status" not in st.session_state:
                         st.session_state.name_validation_status = {}
 
@@ -265,7 +263,7 @@ with tab2:
                 and len(st.session_state.guessed_molecules) > 0
             ):
                 st.balloons()
-                st.session_state.all_iupac_validated = True
+                st.session_state.all_iupac_validated = True'''
     else:
         st.info("Please input a molecule name or draw a molecule first.")
 
