@@ -142,8 +142,8 @@ with tab2:
                     if "start_time" not in st.session_state:
                         st.session_state.start_time = time.time()
                     message_placeholder.success("This stereoisomer matches one of the possible stereoisomers!")
-                    st.image(Draw.MolToImage(drawn_mol), caption="Drawn Molecule", width=150)
-                    st.markdown(f"**Drawn SMILES:** `{drawn_canon_smiles}`")
+                    # st.image(Draw.MolToImage(drawn_mol), caption="Drawn Molecule", width=150)
+                    # st.markdown(f"**Drawn SMILES:** `{drawn_canon_smiles}`")
 
                     # Check if all stereoisomers have been found
                     if len(st.session_state.guessed_molecules) == len(isomer_set) and len(st.session_state.guessed_molecules) != 0:
