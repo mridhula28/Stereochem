@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "StereoChem"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.8"
 license = {file = "LICENSE"}
 description = "This package enables the identification of  stereoisomers for a given molecule."
 dependencies = [ "rdkit", "streamlit", "streamlit_ketcher", "pubchempy"
