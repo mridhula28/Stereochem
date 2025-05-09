@@ -1,4 +1,5 @@
 import streamlit as st
+import base64
 from streamlit_ketcher import st_ketcher
 import pubchempy as pub
 from rdkit import Chem
@@ -8,6 +9,32 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from stereochem.generate_isomers import generate_isomers
+
+# ---- Page Config ----
+
+st.set_page_config(page_title="StereoChem", page_icon=":test_tube:", layout="wide")
+
+# ---- Background image ----
+
+def image(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+    
+def set_background(image_path):
+    encoded_img = image(image_path)
+    page_bg_img = f"""
+    <style>
+    .stApp {{
+        background-image: url("data:image/png;base64,{encoded_img}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }}
+    </style>
+    """
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+set_background("assets/background.png")
 
 # ---- Initialize session states ----
 
@@ -37,10 +64,6 @@ def update_input_molecule(new_smiles):
     for key in list(st.session_state.keys()):
         if key.startswith("Atom"):
             st.session_state[key] = False
-
-# ---- Page Config ----
-
-st.set_page_config(page_title="StereoChem", page_icon=":test_tube:", layout="wide")
 
 # ---- Page Title ----
 
@@ -116,7 +139,7 @@ with tab2:
         with st.form(key="guess_form"):
             drawn_isomers = st_ketcher(key="draw_isomers")
             
-            col1, col2 = st.columns(2)  # Create two columns
+            col1, col2 = st.columns([3.95,1])  # Create two columns
             with col1:
                 submit_isomer = st.form_submit_button("Submit Guess")
             with col2:
@@ -275,6 +298,11 @@ with tab3:
     message_placeholder = st.empty()
     chiral_atoms = []
 
+    # --- Initializing ballons ---
+
+    if "balloons_shown" not in st.session_state:
+        st.session_state.balloons_shown = False
+
     # --- Determine chirality from the molecule ---
     if st.session_state.main_smiles:
         mol = Chem.MolFromSmiles(st.session_state.main_smiles)
@@ -311,12 +339,16 @@ with tab3:
         # --- Check if user selected correct chiral atoms ---
         if sorted(user_selection) == sorted(chiral_atoms) and chiral_atoms and user_selection:
             message_placeholder.success("Congratulations! You found all the chiral atoms!")
-            st.balloons()
+            if not st.session_state.balloons_shown:
+                st.balloons()
+                st.session_state.balloons_shown = True 
 
         # --- Check case: molecule has no chiral atoms and user clicked the button ---
         elif no_chiral_button and not chiral_atoms:
             message_placeholder.success("Correct! This molecule has no chiral atoms.")
-            st.balloons()
+            if not st.session_state.balloons_shown:
+                st.balloons()
+                st.session_state.balloons_shown = True 
 
         # --- Buttons to show/hide chiral atoms ---
         col1, col2 = st.columns(2)
