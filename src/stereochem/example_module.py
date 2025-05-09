@@ -227,7 +227,7 @@ with tab2:
                 guessed_mol = Chem.MolFromSmiles(guessed_smiles)
                 guessed_img = Draw.MolToImage(guessed_mol, size=(200, 200))
                 col = guessed_cols[i % 4]
-                '''with col:
+                with col:
                     if "name_validation_status" not in st.session_state:
                         st.session_state.name_validation_status = {}
 
@@ -286,7 +286,7 @@ with tab2:
                 and len(st.session_state.guessed_molecules) > 0
             ):
                 st.balloons()
-                st.session_state.all_iupac_validated = True'''
+                st.session_state.all_iupac_validated = True
     else:
         st.info("Please input a molecule name or draw a molecule first.")
 
