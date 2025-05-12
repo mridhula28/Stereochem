@@ -9,7 +9,7 @@ import pubchempy as pub
 from rdkit import Chem
 from rdkit.Chem import Draw
 
-from helper_functions import (
+from stereochem.helper_functions import (
     DEFAULT_SESSION_STATE,
     reset_states,
     initialize_session,
@@ -20,7 +20,6 @@ from helper_functions import (
     get_iupac_name
 )
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from stereochem.generate_isomers import generate_isomers
 
 
