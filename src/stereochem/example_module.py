@@ -50,20 +50,41 @@ if "hint" not in st.session_state:
     st.session_state.hint = False  # Toggle for hint display
 if "show_chiral_atoms" not in st.session_state:
     st.session_state.show_chiral_atoms = False
+if "chrono_text" not in st.session_state:
+    st.session_state.chrono_text = ""
 
 # ---- Update function for the main molecule ----
 
 def update_input_molecule(new_smiles):
     st.session_state.main_smiles = new_smiles
-    st.session_state.guessed_molecules = set()  # Reset guesses when new molecule is input
+    st.session_state.guessed_molecules = set()
     st.session_state.score = 0
     st.session_state.show_answers = False
     st.session_state.hint = False
     st.session_state.show_chiral_atoms = False
+    st.session_state.validated_names = set()
+    st.session_state.name_validation_status = {}
+    st.session_state.all_iupac_validated = False
+    st.session_state.balloons_shown = False
+    st.session_state.start_time = None
+    st.session_state.end_time_structures = None
+    st.session_state.chrono_text = ""
 
+    # Reset chrono
+    for key in ["start_time", "end_time_structures"]:
+        if key in st.session_state:
+            del st.session_state[key]
+
+    # Reset validation
+    for key in ["validated_names", "all_iupac_validated", "balloons_shown"]:
+        if key in st.session_state:
+            del st.session_state[key]
+
+    # Reset atom selection checkboxes
     for key in list(st.session_state.keys()):
         if key.startswith("Atom"):
             st.session_state[key] = False
+
 
 # ---- Page Title ----
 
@@ -88,7 +109,8 @@ with tab1:
     if submit_draw and drawn_smiles:
         mol_check = Chem.MolFromSmiles(drawn_smiles)
         if mol_check:
-            input_2 = Chem.MolToSmiles(mol_check, isomericSmiles=True, canonical=True)
+            Chem.RemoveStereochemistry(mol_check)  # REMOVE stereochemistry
+            input_2 = Chem.MolToSmiles(mol_check, canonical=True)  # canonical smiles, no stereo
             if input_2 != st.session_state.main_smiles:
                 update_input_molecule(input_2)
         else:
@@ -111,6 +133,9 @@ with tab1:
         except Exception as e:
             st.sidebar.warning(f"Error fetching molecule: {e}")
 
+    if st.sidebar.button("🔄 Reset Everything"):
+        update_input_molecule("")  # Reset main_smiles to empty
+
     # --- Display the current main molecule ---
     st.sidebar.markdown("### Current Main Molecule:")
     if st.session_state.main_smiles:
@@ -129,7 +154,8 @@ with tab2:
     # --- Feedback placeholders ---
     score_placeholder = st.empty()
     chrono_placeholder = st.empty()
-    message_placeholder = st.empty()
+    if st.session_state.chrono_text:
+        chrono_placeholder.markdown(st.session_state.chrono_text)
 
     # --- Generate isomers from main molecule ---
     if st.session_state.main_smiles:
@@ -150,6 +176,8 @@ with tab2:
             st.balloons()
         elif no_stereo_button and len(isomer_set) > 1:
             st.error("Incorrect. This molecule has stereoisomers.")
+        
+        message_placeholder = st.empty()
             
         # --- Handle submit guess logic (independent of "No stereoisomers") ---
         if submit_isomer and drawn_isomers:
@@ -168,15 +196,15 @@ with tab2:
 
                     # Check if all stereoisomers have been found
                     if len(st.session_state.guessed_molecules) == len(isomer_set) and len(st.session_state.guessed_molecules) != 0:
-                        if "end_time_structures" not in st.session_state:
+                        if "end_time_structures" not in st.session_state or st.session_state.end_time_structures is None:
                             st.session_state.end_time_structures = time.time()
                             elapsed = st.session_state.end_time_structures - st.session_state.start_time
                             minutes = int(elapsed // 60)
                             seconds = int(elapsed % 60)
-                            chrono_placeholder.markdown(f"### Chrono: {minutes} min {seconds} sec")
+                            st.session_state.chrono_text = f"### Chrono: {minutes} min {seconds} sec"
+                            chrono_placeholder.markdown(st.session_state.chrono_text)
                             st.balloons()
-                        else:
-                            message_placeholder.success("🎉 Congratulations! You found all the stereoisomers!")
+                        message_placeholder.success("🎉 Congratulations! You found all the stereoisomers!")
         # --- Display score ---
         score_placeholder.markdown(f"### Score: {st.session_state.score}")
 
@@ -283,6 +311,7 @@ with tab2:
             if (
                 not st.session_state.all_iupac_validated
                 and st.session_state.guessed_molecules == st.session_state.validated_names
+                and len(st.session_state.guessed_molecules) == len(isomer_set)
                 and len(st.session_state.guessed_molecules) > 0
             ):
                 st.balloons()
