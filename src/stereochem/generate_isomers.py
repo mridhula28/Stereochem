@@ -7,6 +7,9 @@ def generate_isomers(smiles: str) -> set:
     # Convert the SMILES string into an RDKit molecule object
     mol_gen_iso = Chem.MolFromSmiles(smiles)
     
+    if mol_gen_iso is None:
+        return {"molecule not found"}
+    
     # Set up options for stereoisomer enumeration:
     # - onlyUnassigned=True: only generate isomers for undefined stereocenters
     # - unique=True: ensures only unique stereoisomers are returned (avoids duplicates)

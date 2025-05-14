@@ -1,12 +1,15 @@
+import os
+import sys
+import time
+
 import streamlit as st
 import base64
 from streamlit_ketcher import st_ketcher
 import pubchempy as pub
 from rdkit import Chem
+from rdkit.Chem import rdMolDescriptors
 from rdkit.Chem import Draw
-import time
-import sys
-import os
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from stereochem.generate_isomers import generate_isomers
 
@@ -125,9 +128,13 @@ with tab1:
         try:
             compounds = pub.get_compounds(molecule_name_input, 'name')
             if compounds:
-                input_1 = compounds[0].isomeric_smiles
-                if input_1 != st.session_state.main_smiles:
-                    update_input_molecule(input_1)
+                # Get the molecule from SMILES and remove stereochemistry
+                mol_from_name = Chem.MolFromSmiles(compounds[0].isomeric_smiles)
+                if mol_from_name:
+                    Chem.RemoveStereochemistry(mol_from_name)
+                    input_1 = Chem.MolToSmiles(mol_from_name, canonical = True)
+                    if input_1 != st.session_state.main_smiles:
+                        update_input_molecule(input_1)
             else:
                 st.sidebar.warning("Molecule not found.")
         except Exception as e:
@@ -234,9 +241,15 @@ with tab2:
                     if results and results[0].iupac_name:
                         iupac_name = results[0].iupac_name
                     else:
-                        iupac_name = "Unknown Name"
-                except Exception as e:
-                    iupac_name = "Unknown Name"
+                        raise ValueError("No IUPAC name found")  # Force fallback
+                except Exception:
+                    # Fallback: use molecular formula as a placeholder name
+                    mol = Chem.MolFromSmiles(isomer_smiles)
+                    if mol:
+                        formula = rdMolDescriptors.CalcMolFormula(mol)
+                        iupac_name = f"Unknown Name ({formula})"
+                    else:
+                        iupac_name = "Invalid SMILES"
 
                 with col:
                     st.image(img, caption=iupac_name, use_container_width=True)
