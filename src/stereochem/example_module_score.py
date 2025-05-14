@@ -212,11 +212,14 @@ with tab2:
         # --- Buttons for answer display ---
         col1, col2, col3 = st.columns(3)
         with col1:
-                if st.button("Show Answers"):
-                    if not st.session_state.get("show_answers_penalized", False):
-                        st.session_state.score = max(0, st.session_state.score - 1)  # prevent negative score
-                        st.session_state.show_answers_penalized = True
-                    st.session_state.show_answers = True
+            if st.button("Show Answers"):
+                if not st.session_state.show_answers:
+                    # Only apply penalty when transitioning from not showing to showing answers
+                    if st.session_state.score > 0:
+                        st.session_state.score -= 1
+                    st.session_state.show_answers_penalized = True
+                st.session_state.show_answers = True
+
         with col2:
             if st.button("Hide Answers"):
                 st.session_state.show_answers = False
