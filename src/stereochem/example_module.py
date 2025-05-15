@@ -243,13 +243,7 @@ with tab2:
                     else:
                         raise ValueError("No IUPAC name found")  # Force fallback
                 except Exception:
-                    # Fallback: use molecular formula as a placeholder name
-                    mol = Chem.MolFromSmiles(isomer_smiles)
-                    if mol:
-                        formula = rdMolDescriptors.CalcMolFormula(mol)
-                        iupac_name = f"Unknown Name ({formula})"
-                    else:
-                        iupac_name = "Invalid SMILES"
+                    iupac_name = "Unknown name"
 
                 with col:
                     st.image(img, caption=iupac_name, use_container_width=True)
