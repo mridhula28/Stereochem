@@ -1,4 +1,4 @@
-from stereochem.generate_isomers import generate_isomers
+from stereochem.functions import generate_isomers
 
 def test_no_stereochemistry():
     assert generate_isomers("CCO") == {"CCO"}

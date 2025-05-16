@@ -3,7 +3,7 @@
 import streamlit as st
 from rdkit import Chem 
 from rdkit.Chem import Draw
-from stereochem.generate_isomers import generate_isomers
+from stereochem.functions import generate_isomers
 from stereochem.example_module import example_module
 
 if smile_code:  # Only proceed if user has drawn something

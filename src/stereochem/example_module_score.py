@@ -11,7 +11,7 @@ from rdkit.Chem import rdMolDescriptors
 from rdkit.Chem import Draw
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from stereochem.generate_isomers import generate_isomers
+from stereochem.functions import generate_isomers
 
 # ---- Page Config ----
 

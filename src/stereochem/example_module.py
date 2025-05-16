@@ -1,17 +1,16 @@
 import os
 import sys
 import time
-
 import streamlit as st
 import base64
 from streamlit_ketcher import st_ketcher
 import pubchempy as pub
 from rdkit import Chem
-from rdkit.Chem import rdMolDescriptors
 from rdkit.Chem import Draw
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from stereochem.generate_isomers import generate_isomers
+from stereochem.functions import generate_isomers
+from stereochem.functions import update_input_molecule
 
 # ---- Page Config ----
 
@@ -55,39 +54,6 @@ if "show_chiral_atoms" not in st.session_state:
     st.session_state.show_chiral_atoms = False
 if "chrono_text" not in st.session_state:
     st.session_state.chrono_text = ""
-
-# ---- Update function for the main molecule ----
-
-def update_input_molecule(new_smiles):
-    st.session_state.main_smiles = new_smiles
-    st.session_state.guessed_molecules = set()
-    st.session_state.score = 0
-    st.session_state.show_answers = False
-    st.session_state.hint = False
-    st.session_state.show_chiral_atoms = False
-    st.session_state.validated_names = set()
-    st.session_state.name_validation_status = {}
-    st.session_state.all_iupac_validated = False
-    st.session_state.balloons_shown = False
-    st.session_state.start_time = None
-    st.session_state.end_time_structures = None
-    st.session_state.chrono_text = ""
-
-    # Reset chrono
-    for key in ["start_time", "end_time_structures"]:
-        if key in st.session_state:
-            del st.session_state[key]
-
-    # Reset validation
-    for key in ["validated_names", "all_iupac_validated", "balloons_shown"]:
-        if key in st.session_state:
-            del st.session_state[key]
-
-    # Reset atom selection checkboxes
-    for key in list(st.session_state.keys()):
-        if key.startswith("Atom"):
-            st.session_state[key] = False
-
 
 # ---- Page Title ----
 

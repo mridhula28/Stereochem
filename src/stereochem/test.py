@@ -6,7 +6,7 @@ from rdkit.Chem import Draw
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from stereochem.generate_isomers import generate_isomers
+from stereochem.functions import generate_isomers
 
 # ---- Initialize session states ----
 if "main_smiles" not in st.session_state:
