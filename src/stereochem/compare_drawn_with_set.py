@@ -4,7 +4,7 @@ import streamlit as st
 from rdkit import Chem 
 from rdkit.Chem import Draw
 from stereochem.functions import generate_isomers
-from stereochem.example_module import example_module
+from stereochem.stereochem_project import example_module
 
 if smile_code:  # Only proceed if user has drawn something
     drawn_mol = Chem.MolFromSmiles(smile_code)
