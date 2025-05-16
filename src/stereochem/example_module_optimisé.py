@@ -20,7 +20,7 @@ from stereochem.helper_functions import (
     get_iupac_name
 )
 
-from stereochem.generate_isomers import generate_isomers
+from stereochem.functions import generate_isomers
 
 
 # ---- Page Config ----
