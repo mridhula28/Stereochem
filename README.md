@@ -87,19 +87,35 @@ To install the package, run
 
 ## 🔥 Usage 
 
+Once all the boring installation work is done, the fun can start!
+Open the `src` folder and open the `stereochem_project` file. Go to the terminal at type in: 
 
-```python
-from mypackage import main_func
-
-# One line to rule them all
-result = main_func(data)
+```
+streamlit run StereoChem/src/stereochem/stereochem_project.py     
 ```
 
-This usage example shows how to quickly leverage the package's main functionality with just one line of code (or a few lines of code). 
-After importing the `main_func` (to be renamed by you), you simply pass in your `data` and get the `result` (this is just an example, your package might have other inputs and outputs). 
-Short and sweet, but the real power lies in the detailed documentation.
+Executing this code will automatically bring you to the our web page. 
+Here is a short user manual to help you get familiar with the web interface.
 
-### Run tests and coverage
+Start by entering the name of a molecule either by typing it in the sidebar and pressing on `Submit Name` or by drawing it directly on the interface and then clicking on `Apply` and `Submit drawing`. An example with ** butan-2-ol **
+
+<img src="StereoChem/assets/name.png" alt="Alt text" width="500" />
+
+Switch tabs and go to the ** Draw isomers ** tab. 
+Guess all the stereoisomers on the interface and press on `Apply` and `Submit drawing` to validate your guess. If you are blocked press on `hint` or if you wish to give up and have the answers press on `Show Answers`
+
+For each correct stereoisomer guessed, a small pop up card will appear. Try and the guess the iupac name of the molecule you just drew! 
+
+<img src="StereoChem/assets/cards.png" alt="Alt text" width="500" />
+
+Switch tabs and go to the ** Chirality ** tab. 
+Click on the numbered boxes of the atoms you think are chiral.
+
+<img src="StereoChem/assets/chirality.png" alt="Alt text" width="500" />
+
+rien ne marche AHHHHHHHH
+
+### 📚 Run tests and coverage
 
 ```
 (conda_env) $ pip install tox
