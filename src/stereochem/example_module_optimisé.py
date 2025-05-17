@@ -1,16 +1,27 @@
 import os
 import sys
 import time
-import streamlit as st
 import base64
+
+import streamlit as st
 from streamlit_ketcher import st_ketcher
 import pubchempy as pub
 from rdkit import Chem
 from rdkit.Chem import Draw
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from stereochem.helper_functions import (
+    DEFAULT_SESSION_STATE,
+    reset_states,
+    initialize_session,
+    reset_main_molecule,
+    display_in_grid,
+    render_guess,
+    reset_name_validation,
+    get_iupac_name
+)
+
 from stereochem.functions import generate_isomers
-from stereochem.functions import update_input_molecule
+
 
 # ---- Page Config ----
 
@@ -40,20 +51,13 @@ set_background("assets/background.png")
 
 # ---- Initialize session states ----
 
-if "main_smiles" not in st.session_state:
-    st.session_state.main_smiles = ""  # The main molecule input (SMILES)
-if "guessed_molecules" not in st.session_state:
-    st.session_state.guessed_molecules = set()  # Set to store correct guesses
-if "score" not in st.session_state:
-    st.session_state.score = 0  # User's score
-if "show_answers" not in st.session_state:
-    st.session_state.show_answers = False  # Toggle to show answers
-if "hint" not in st.session_state:
-    st.session_state.hint = False  # Toggle for hint display
-if "show_chiral_atoms" not in st.session_state:
-    st.session_state.show_chiral_atoms = False
-if "chrono_text" not in st.session_state:
-    st.session_state.chrono_text = ""
+initialize_session()
+
+# ---- Update function for the main molecule ----
+
+def update_input_molecule(new_smiles):
+    reset_states(DEFAULT_SESSION_STATE)
+    st.session_state.main_smiles = new_smiles
 
 # ---- Page Title ----
 
@@ -78,8 +82,7 @@ with tab1:
     if submit_draw and drawn_smiles:
         mol_check = Chem.MolFromSmiles(drawn_smiles)
         if mol_check:
-            Chem.RemoveStereochemistry(mol_check)  # REMOVE stereochemistry
-            input_2 = Chem.MolToSmiles(mol_check, canonical=True)  # canonical smiles, no stereo
+            input_2 = Chem.MolToSmiles(mol_check, isomericSmiles=True, canonical=True)
             if input_2 != st.session_state.main_smiles:
                 update_input_molecule(input_2)
         else:
@@ -94,20 +97,19 @@ with tab1:
         try:
             compounds = pub.get_compounds(molecule_name_input, 'name')
             if compounds:
-                # Get the molecule from SMILES and remove stereochemistry
-                mol_from_name = Chem.MolFromSmiles(compounds[0].isomeric_smiles)
-                if mol_from_name:
-                    Chem.RemoveStereochemistry(mol_from_name)
-                    input_1 = Chem.MolToSmiles(mol_from_name, canonical = True)
-                    if input_1 != st.session_state.main_smiles:
-                        update_input_molecule(input_1)
+                input_1 = compounds[0].isomeric_smiles
+                if input_1 != st.session_state.main_smiles:
+                    update_input_molecule(input_1)
             else:
                 st.sidebar.warning("Molecule not found.")
         except Exception as e:
             st.sidebar.warning(f"Error fetching molecule: {e}")
 
-    if st.sidebar.button("🔄 Reset Everything"):
-        update_input_molecule("")  # Reset main_smiles to empty
+    # --- Add Reset Molecule Button ---
+    reset_button = st.button("Reset molecule")
+
+    if reset_button:
+        reset_main_molecule()
 
     # --- Display the current main molecule ---
     st.sidebar.markdown("### Current Main Molecule:")
@@ -127,8 +129,7 @@ with tab2:
     # --- Feedback placeholders ---
     score_placeholder = st.empty()
     chrono_placeholder = st.empty()
-    if st.session_state.chrono_text:
-        chrono_placeholder.markdown(st.session_state.chrono_text)
+    message_placeholder = st.empty()
 
     # --- Generate isomers from main molecule ---
     if st.session_state.main_smiles:
@@ -149,8 +150,6 @@ with tab2:
             st.balloons()
         elif no_stereo_button and len(isomer_set) > 1:
             st.error("Incorrect. This molecule has stereoisomers.")
-        
-        message_placeholder = st.empty()
             
         # --- Handle submit guess logic (independent of "No stereoisomers") ---
         if submit_isomer and drawn_isomers:
@@ -169,15 +168,15 @@ with tab2:
 
                     # Check if all stereoisomers have been found
                     if len(st.session_state.guessed_molecules) == len(isomer_set) and len(st.session_state.guessed_molecules) != 0:
-                        if "end_time_structures" not in st.session_state or st.session_state.end_time_structures is None:
+                        if "end_time_structures" not in st.session_state:
                             st.session_state.end_time_structures = time.time()
                             elapsed = st.session_state.end_time_structures - st.session_state.start_time
                             minutes = int(elapsed // 60)
                             seconds = int(elapsed % 60)
-                            st.session_state.chrono_text = f"### Chrono: {minutes} min {seconds} sec"
-                            chrono_placeholder.markdown(st.session_state.chrono_text)
+                            chrono_placeholder.markdown(f"### Chrono: {minutes} min {seconds} sec")
                             st.balloons()
-                        message_placeholder.success("🎉 Congratulations! You found all the stereoisomers!")
+                        else:
+                            message_placeholder.success("🎉 Congratulations! You found all the stereoisomers!")
         # --- Display score ---
         score_placeholder.markdown(f"### Score: {st.session_state.score}")
 
@@ -190,7 +189,7 @@ with tab2:
             if st.button("Hide Answers"):
                 st.session_state.show_answers = False
         with col3:
-            if st.button("Hint"):
+            if st.button("Show Hint"):
                 st.session_state.hint = True
 
         # --- Display isomers if answers are shown ---
@@ -202,15 +201,7 @@ with tab2:
                 img = Draw.MolToImage(mol, size=(200, 200))
                 col = cols[i % 4]
 
-                try:
-                    results = pub.get_compounds(isomer_smiles, namespace='smiles')
-                    if results and results[0].iupac_name:
-                        iupac_name = results[0].iupac_name
-                    else:
-                        raise ValueError("No IUPAC name found")  # Force fallback
-                except Exception:
-                    iupac_name = "Unknown name"
-
+                iupac_name = get_iupac_name(isomer_smiles)
                 with col:
                     st.image(img, caption=iupac_name, use_container_width=True)
 
@@ -223,60 +214,12 @@ with tab2:
             st.subheader("Your Guessed Stereoisomers")
             if "validated_names" not in st.session_state:
                 st.session_state.validated_names = set()
-            guessed_cols = st.columns(4)
-            for i, guessed_smiles in enumerate(sorted(st.session_state.guessed_molecules)):
-                guessed_mol = Chem.MolFromSmiles(guessed_smiles)
-                guessed_img = Draw.MolToImage(guessed_mol, size=(200, 200))
-                col = guessed_cols[i % 4]
-                with col:
-                    if "name_validation_status" not in st.session_state:
-                        st.session_state.name_validation_status = {}
-
-                    with st.form(key=f"form_inline_{guessed_smiles}"):
-                        st.image(guessed_img, use_container_width=True)
-                        if st.session_state.get(f"reset_requested_{guessed_smiles}", False):
-                            st.session_state[f"input_inline_{guessed_smiles}"] = ""
-                            st.session_state[f"reset_requested_{guessed_smiles}"] = False
-                            st.rerun()
-                        user_input_name = st.text_input(
-                            f"IUPAC name for isomer {i+1}:", 
-                            key=f"input_inline_{guessed_smiles}"
-                        )
-
-                        with st.container():
-                            st.markdown("<div style='text-align:center;'>", unsafe_allow_html=True)
-                            submit_name_check = st.form_submit_button("Check IUPAC Name")
-                            reset_name = st.form_submit_button("Reset")
-                            st.markdown("</div>", unsafe_allow_html=True)
-
-                        if submit_name_check:
-                            try:
-                                results = pub.get_compounds(guessed_smiles, namespace='smiles')
-                                if results and results[0].iupac_name:
-                                    correct_name = results[0].iupac_name.lower().replace("-", "").replace(",", "").replace(" ", "")
-                                    user_name = user_input_name.lower().replace("-", "").replace(",", "").replace(" ", "")
-                                    if user_name == correct_name:
-                                        if guessed_smiles not in st.session_state.validated_names:
-                                            st.session_state.score += 1
-                                            st.session_state.validated_names.add(guessed_smiles)
-                                            score_placeholder.markdown(f"### Score: {st.session_state.score}")
-                                        st.session_state.name_validation_status[guessed_smiles] = "correct"
-                                    else:
-                                        st.session_state.name_validation_status[guessed_smiles] = "incorrect"
-                                else:
-                                    st.warning("Could not retrieve the correct name from PubChem.")
-                            except Exception as e:
-                                st.warning(f"An error occurred while retrieving name: {e}")
-
-                        if reset_name:
-                            st.session_state[f"reset_requested_{guessed_smiles}"] = True
-                            st.session_state.name_validation_status[guessed_smiles] = None
-                            st.rerun()
-
-                        if st.session_state.name_validation_status.get(guessed_smiles) == "correct":
-                            st.success("Correct IUPAC name!")
-                        elif st.session_state.name_validation_status.get(guessed_smiles) == "incorrect":
-                            st.error("Incorrect.")
+            
+            display_in_grid(
+                sorted(st.session_state.guessed_molecules),
+                render_fn=render_guess,
+                score_placeholder=score_placeholder
+            )
 
             if "all_iupac_validated" not in st.session_state:
                 st.session_state.all_iupac_validated = False
@@ -284,13 +227,13 @@ with tab2:
             if (
                 not st.session_state.all_iupac_validated
                 and st.session_state.guessed_molecules == st.session_state.validated_names
-                and len(st.session_state.guessed_molecules) == len(isomer_set)
                 and len(st.session_state.guessed_molecules) > 0
             ):
                 st.balloons()
                 st.session_state.all_iupac_validated = True
-    else:
-        st.info("Please input a molecule name or draw a molecule first.")
+        else:
+            st.info("Please input a molecule name or draw a molecule first.")
+
 
 # ---- Tab 3: Chirality ----
 
