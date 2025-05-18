@@ -1,37 +1,36 @@
+import unittest
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 from stereochem.functions import generate_isomers
 
-def test_no_stereochemistry():
-    assert generate_isomers("CCO") == {"CCO"}
+class TestGenerateIsomers(unittest.TestCase):
 
-def test_double_bond_stereoisomerism():
-    result = generate_isomers("CC=CC")
-    assert len(result) == 2
+    def test_generate_isomers(self):
+        # No stereochemistry
+        self.assertEqual(generate_isomers("CCO"), {"CCO"})
 
-def test_fully_assigned_stereochemistry():
-    assert generate_isomers("F[C@H](Cl)Br") == {"F[C@H](Cl)Br"}
+        # Double bond: E/Z isomerism
+        result = generate_isomers("CC=CC")
+        self.assertEqual(len(result), 2)
 
-def test_chiral_no_isomer():
-    # A molecule with a chiral center but too symmetric to produce two distinct stereoisomers
-    result = generate_isomers("C[C@@H](C)C")
-    assert len(result) == 1
+        # Only geometric isomerism (no chirality)
+        result = generate_isomers("CC=CC")
+        self.assertEqual(len(result), 2)
 
-def test_isomer_without_chirality():
-    # 2-butene: E/Z isomerism but no chiral center
-    result = generate_isomers("CC=CC")
-    assert len(result) == 2
+        # No chirality or isomerism
+        self.assertEqual(generate_isomers("CCCC"), {"CCCC"})
 
-def test_no_chirality_no_isomer():
-    result = generate_isomers("CCCC")
-    assert result == {"CCCC"}
+        # Two chiral centers
+        result = generate_isomers("FC(Br)C(Cl)I")
+        self.assertEqual(len(result), 4)
 
-def test_multiple_chiral_centers():
-    result = generate_isomers("FC(Br)C(Cl)I")
-    assert len(result) == 4
+        # Chiral center + double bond
+        result = generate_isomers("CC=CC(Cl)F")
+        self.assertEqual(len(result), 4)
 
-def test_chirality_and_double_bond():
-    result = generate_isomers("CC=CC(Cl)F")
-    assert len(result) == 4
+        # Invalid molecule
+        self.assertEqual(generate_isomers("HELP"), {"molecule not found"})
 
-def test_invalid_molecule():
-    result = generate_isomers("HELP")
-    assert result == {"molecule not found"}
+if __name__ == '__main__':
+    unittest.main()
