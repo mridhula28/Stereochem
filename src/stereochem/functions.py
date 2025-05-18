@@ -1,10 +1,14 @@
 from rdkit import Chem
 from rdkit.Chem.EnumerateStereoisomers import EnumerateStereoisomers, StereoEnumerationOptions
+from rdkit import RDLogger
 import streamlit as st
+
+RDLogger.DisableLog('rdApp.*')
 
 # creates a set containing all the isomers for a given molecule; both R/S and E/Z.
 
 def generate_isomers(smiles: str) -> set:
+    # Désactive les warnings et infos
     # Convert the SMILES string into an RDKit molecule object
     mol_gen_iso = Chem.MolFromSmiles(smiles)
     
