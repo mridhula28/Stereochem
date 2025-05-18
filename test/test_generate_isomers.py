@@ -24,9 +24,13 @@ def test_no_chirality_no_isomer():
     result = generate_isomers("CCCC")
     assert result == {"CCCC"}
 
+def test_multiple_chiral_centers():
+    result = generate_isomers("FC(Br)C(Cl)I")
+    assert len(result) == 4
+
 def test_chirality_and_double_bond():
-    result = generate_isomers("C/C=C[C@H](Cl)F")
-    assert len(result) == 2 or len(result) == 4
+    result = generate_isomers("CC=CC(Cl)F")
+    assert len(result) == 4
 
 def test_invalid_molecule():
     result = generate_isomers("HELP")
