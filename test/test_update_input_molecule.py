@@ -1,36 +1,34 @@
 import unittest
-from unittest.mock import patch
 import streamlit as st
 from stereochem.functions import update_input_molecule
-
 
 class TestUpdateInputMolecule(unittest.TestCase):
 
     def setUp(self):
-        # Ensure a clean state before each test
         st.session_state.clear()
 
-    def test_empty_state_reset(self):
+    def test_update_input_molecule_all_cases(self):
+        # --- Test 1: Reset state when starting from empty ---
         update_input_molecule("CCO")
         self.assertEqual(st.session_state.main_smiles, "CCO")
         self.assertEqual(st.session_state.guessed_molecules, set())
         self.assertEqual(st.session_state.score, 0)
-        self.assertFalse(st.session_state.show_answers)
-        self.assertFalse(st.session_state.hint)
-        self.assertFalse(st.session_state.show_chiral_atoms)
-        self.assertEqual(st.session_state.chrono_text, "")
+        self.assertFalse(st.session_state.show_answers)        # reset to False - meaning no answers shown when a new molecule is input
+        self.assertFalse(st.session_state.hint)                # reset to False - meaning no hints when a new molecule is input
+        self.assertFalse(st.session_state.show_chiral_atoms)   # reset to False - meaning no chiral atoms highlighted when a new molecule is input
+        self.assertEqual(st.session_state.chrono_text, "")     # here the timer display is cleared
         self.assertNotIn("start_time", st.session_state)
         self.assertNotIn("end_time_structures", st.session_state)
         self.assertNotIn("all_iupac_validated", st.session_state)
         self.assertNotIn("balloons_shown", st.session_state)
 
-    def test_partial_tab1_input(self):
+        # --- Test 2: Partial input update resets guessed molecules ---
         st.session_state.main_smiles = "CCC"
         update_input_molecule("C=CC")
         self.assertEqual(st.session_state.main_smiles, "C=CC")
         self.assertEqual(st.session_state.guessed_molecules, set())
 
-    def test_tab2_filled(self):
+        # --- Test 3: Reset guessed molecules, score, show_answers when Tab2 filled ---
         st.session_state.guessed_molecules = {"C[C@H](Cl)F"}
         st.session_state.score = 3
         st.session_state.show_answers = True
@@ -39,7 +37,7 @@ class TestUpdateInputMolecule(unittest.TestCase):
         self.assertEqual(st.session_state.score, 0)
         self.assertFalse(st.session_state.show_answers)
 
-    def test_tab3_filled_checkboxes(self):
+        # --- Test 4: Reset atom checkboxes ---
         st.session_state["Atom_0"] = True
         st.session_state["Atom_5"] = True
         st.session_state["Atom_9"] = True
@@ -48,7 +46,7 @@ class TestUpdateInputMolecule(unittest.TestCase):
         self.assertFalse(st.session_state["Atom_5"])
         self.assertFalse(st.session_state["Atom_9"])
 
-    def test_all_filled(self):
+        # --- Test 5: Full reset (after that all the tabs were filled)  ---
         st.session_state.update({
             "main_smiles": "CCC",
             "guessed_molecules": {"C[C@H](Br)F"},
@@ -79,7 +77,7 @@ class TestUpdateInputMolecule(unittest.TestCase):
         self.assertNotIn("all_iupac_validated", st.session_state)
         self.assertNotIn("balloons_shown", st.session_state)
 
-    def test_resets_hint_and_chiral(self):
+        # --- Test 6: Reset hint and chiral atom flags ---
         st.session_state.update({
             "show_answers": True,
             "hint": True,
@@ -90,7 +88,7 @@ class TestUpdateInputMolecule(unittest.TestCase):
         self.assertFalse(st.session_state.hint)
         self.assertFalse(st.session_state.show_chiral_atoms)
 
-    def test_removes_transient_fields(self):
+        # --- Test 7: Ensure timing and validation fields are cleared on input update ---
         st.session_state.update({
             "start_time": 123,
             "end_time_structures": 456,
@@ -102,11 +100,48 @@ class TestUpdateInputMolecule(unittest.TestCase):
         for key in ["start_time", "end_time_structures", "validated_names", "all_iupac_validated", "balloons_shown"]:
             self.assertNotIn(key, st.session_state)
 
-    def test_overwrites_main_smiles(self):
-        st.session_state.main_smiles = "old"
-        update_input_molecule("new")
-        self.assertEqual(st.session_state.main_smiles, "new")
+        # --- Test 8: Overwrite main_smiles with new input ---
+        st.session_state.main_smiles = "CCN"
+        update_input_molecule("CCO")
+        self.assertEqual(st.session_state.main_smiles, "CCO")
+
+         # --- Test 9: Re-entering the same molecule should still reset the state ---
+
+        # Set up session state with existing molecule and some filled fields
+        st.session_state.update({
+            "main_smiles": "CCO",
+            "guessed_molecules": {"C[C@H](Br)F"},
+            "score": 4,
+            "show_answers": True,
+            "hint": True,
+            "show_chiral_atoms": True,
+            "chrono_text": "Elapsed",
+            "Atom_0": True,
+            "start_time": 123,
+            "end_time_structures": 456,
+            "validated_names": {"C[C@H](Br)F"},
+            "all_iupac_validated": True,
+            "balloons_shown": True
+        })
+    
+        # Re-enter the same molecule
+        update_input_molecule("CCO")
+    
+        # Even though it is the same molecule, state should be reset
+        self.assertEqual(st.session_state.main_smiles, "CCO")
+        self.assertEqual(st.session_state.guessed_molecules, set())
+        self.assertEqual(st.session_state.score, 0)
+        self.assertFalse(st.session_state.show_answers)
+        self.assertFalse(st.session_state.hint)
+        self.assertFalse(st.session_state.show_chiral_atoms)
+        self.assertEqual(st.session_state.chrono_text, "")
+        self.assertFalse(st.session_state["Atom_0"])
+    
+        # Transient fields should be removed
+        for key in ["start_time", "end_time_structures", "validated_names", "all_iupac_validated", "balloons_shown"]:
+            self.assertNotIn(key, st.session_state)
 
 
 if __name__ == "__main__":
     unittest.main()
+
