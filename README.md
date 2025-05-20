@@ -113,9 +113,9 @@ Click on the numbered boxes of the atoms you think are chiral.
 
 <img src="StereoChem/assets/chirality.png" alt="Alt text" width="500" />
 
-rien ne marche AHHHHHHHH
-
 ### 📚 Run tests and coverage
+
+To test a few of our functions, insert the following code. 
 
 ```
 (conda_env) $ pip install tox
