@@ -99,19 +99,19 @@ Here is a short user manual to help you get familiar with the web interface.
 
 Start by entering the name of a molecule either by typing it in the sidebar and pressing on `Submit Name` or by drawing it directly on the interface and then clicking on `Apply` and `Submit drawing`. An example with ** butan-2-ol **
 
-<img src="StereoChem/assets/name.png" alt="Alt text" width="500" />
+<img src="assets/name.png" alt="Alt text" width="500" />
 
 Switch tabs and go to the ** Draw isomers ** tab. 
 Guess all the stereoisomers on the interface and press on `Apply` and `Submit drawing` to validate your guess. If you are blocked press on `hint` or if you wish to give up and have the answers press on `Show Answers`
 
 For each correct stereoisomer guessed, a small pop up card will appear. Try and the guess the iupac name of the molecule you just drew! 
 
-<img src="StereoChem/assets/cards.png" alt="Alt text" width="500" />
+<img src="assets/cards.png" alt="Alt text" width="500" />
 
 Switch tabs and go to the ** Chirality ** tab. 
 Click on the numbered boxes of the atoms you think are chiral.
 
-<img src="StereoChem/assets/chirality.png" alt="Alt text" width="500" />
+<img src="assets/chirality.png" alt="Alt text" width="500" />
 
 ### 📚 Run tests and coverage
 
