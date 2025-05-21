@@ -141,6 +141,9 @@ class TestUpdateInputMolecule(unittest.TestCase):
         for key in ["start_time", "end_time_structures", "validated_names", "all_iupac_validated", "balloons_shown"]:
             self.assertNotIn(key, st.session_state)
 
+# The session state resets even when the same molecule is re-entered in the test, which is expected.
+# because we are directly testing the update_input_molecule() function, which is designed to reset state. 
+# In the actual app, this reset is conditionally avoided using an 'if' condition to prevent unnecessary updates.
 
 if __name__ == "__main__":
     unittest.main()
