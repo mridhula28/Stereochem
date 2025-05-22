@@ -1,9 +1,9 @@
 
 <h1 align="center">
-Stereochem Project -- Notebook Overview 
+Stereochem Project -- Notebook Overview 🎈
 </h1>
 
-# Notebook
+## 📓 Notebook
 
 We are pleased to present our project through this Jupyter Notebook.
 In the following sections, we will present:
