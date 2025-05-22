@@ -1,17 +1,17 @@
 ![Project Logo](assets/banner1.png)
-![Static Badge](https://img.shields.io/badge/Python-yellow?style=for-the-badge&logo=python&logoColor=yellow&labelColor=blue)
+labelColor=blue)
 ![Static Badge](https://img.shields.io/badge/Github-black?style=for-the-badge&logo=Github&logoColor=white)
+![Static Badge](https://img.shields.io/badge/Python-yellow?style=for-the-badge&logo=python&logoColor=yellow&labelColor=blue)
+![Static Badge](https://img.shields.io/badge/Jupyter-orange?style=for-the-badge&logo=jupyter&logoColor=purple)
 
 
 ![Static Badge](https://img.shields.io/badge/Github-black?logo=github)
 ![Static Badge](https://img.shields.io/badge/Python-yellow?logo=python&logoColor=yellow&labelColor=blue)
 
 
-![Coverage Status](assets/github.png)
-![Coverage Status](assets/python.png)
 
 <h1 align="center">
-StereoChem : Explore the world of isomers through a fun game 
+StereoChem : Explore the world of isomers through a fun game 🎈
 </h1>
 
 <br>
@@ -112,3 +112,13 @@ If you wish to guess stereoisomers for molecules with double bond, please used t
 <img src="assets/bond.png" alt="Alt text" width="500" />
 
 ### 📚 Authors 
+
+Developpers: 
+- Catherina Carrer, student in chemistry and chemical engineering at EPFL [![GitHub](https://img.shields.io/badge/GitHub-CatherinaCarrer-black?style=for-the-badge&logo=github)](https://github.com/CatherinaCarrer)
+- Lucie Frenot, student in chemistry and chemical engineering at EPFL
+- Mridhula Jayasankar, student in chemistry and chemical engineering at EPFL
+- Rania Doukkali, student in chemistry and chemical engineering at EPFL
+
+All developers contributed to the creation of the interface. The **stereoisomers** component of the code was primarily developed by **Lucie** and **Catherina**, while the **nomenclature**, **scoring system**, and **chronometer** were mainly implemented by **Rania**. The **chirality** functionality of tab 3 was developed by **Mridhula**. Additionally, the **Jupyter Notebook** and **testing scripts** were written by Lucie, Catherina and Rania. Finally, the **README** was authored by Mridhula.
+
+It's important to note that we did not assign rigid roles within the team—each developer contributed across different aspects of the project, collaborating and supporting one another throughout the development process.
