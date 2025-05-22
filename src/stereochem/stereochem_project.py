@@ -62,7 +62,7 @@ st.caption("Practical Programming in Chemistry miniproject")
 
 # ---- Tabs for Drawing and Isomers ----
 
-tab1, tab2, tab3 = st.tabs(["Input a molecule", "Draw isomers", "Chirality"])
+tab1, tab2, tab3= st.tabs(["Input a molecule", "Draw isomers", "Chirality"])
 
 # ---- Tab 1: Input Molecule (by drawing or name) ----
 

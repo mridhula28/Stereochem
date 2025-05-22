@@ -31,18 +31,29 @@ Being linked to enantiomers, chirality represents the property of a molecule mak
 Have we motivated you to come along the wonderful experience of StereoChem with us ? Start by creating a new environment! You may also give the environment a different name. 
 
 ```
-conda create -n stereochem python=3.10 
+conda create -n stereochem python=3.8 
 ```
 
 ```
 conda activate stereochem
-(conda_env) $ pip install .
 ```
 
-If you need jupyter lab, install it 
+Now lets create a folder in this environment and enter the folder! Once again you may name the folder as you wish. 
 
 ```
-(stereochem) $ pip install jupyterlab
+mkdir teststereo
+cd teststereo
+```
+Use the following line to clone the github repository: 
+
+```
+git clone https://github.com/mridhula28/Stereochem
+```
+
+Then install the package using: 
+
+```
+pip install -e .
 ```
 
 As this package requires a few external packages please install the following if they don’t appear in your environment. In order to check if *rdkit3*, *streamlit*, *streamlit_ketcher* and *pubchempy* are already 
@@ -59,30 +70,6 @@ If they don't appear, please install them individually:
 (stereochem) $ pip install streamlit 
 (stereochem) $ pip install streamlit_ketcher
 (stereochem) $ pip install pubchempy 
-```
-
-## 🛠️ Development installation
-
-Initialize Git (only for the first time). 
-
-Note: You should have create an empty repository on `https://github.com:mridhula28/StereoChem`.
-
-```
-git init
-git add * 
-git add .*
-git commit -m "Initial commit" 
-git branch -M main
-git remote add origin git@github.com:mridhula28/StereoChem.git 
-git push -u origin main
-```
-
-Then add and commit changes as usual. 
-
-To install the package, run
-
-```
-(stereochem) $ pip install -e ".[test,doc]"
 ```
 
 ## 🔥 Usage 
