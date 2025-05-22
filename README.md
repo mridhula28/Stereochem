@@ -8,6 +8,7 @@ StereoChem : Explore the world of isomers through a fun game 🎈
 </h1>
 
 <br>
+
 ### Collaborators: Catherina Carrer, Lucie Frenot, Mridhula Jayasankar ＆ Rania Doukkali
 #### Practical Programming in Chemistry @ EPFL
 
