@@ -81,7 +81,7 @@ Once all the boring installation work is done, the fun can start!
 Open the `src` folder and open the `stereochem_project` file. Go to the terminal and type in: 
 
 ```
-streamlit run StereoChem/src/stereochem/stereochem_project.py     
+streamlit run src/stereochem/stereochem_project.py    
 ```
 
 Executing this code will automatically bring you to the our web page. 
