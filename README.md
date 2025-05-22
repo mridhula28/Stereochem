@@ -1,4 +1,11 @@
 ![Project Logo](assets/banner1.png)
+![Static Badge](https://img.shields.io/badge/Python-yellow?style=for-the-badge&logo=python&logoColor=yellow&labelColor=blue)
+![Static Badge](https://img.shields.io/badge/Github-black?style=for-the-badge&logo=Github&logoColor=white)
+
+
+![Static Badge](https://img.shields.io/badge/Github-black?logo=github)
+![Static Badge](https://img.shields.io/badge/Python-yellow?logo=python&logoColor=yellow&labelColor=blue)
+
 
 ![Coverage Status](assets/github.png)
 ![Coverage Status](assets/python.png)
@@ -104,11 +111,4 @@ If you wish to guess stereoisomers for molecules with double bond, please used t
 
 <img src="assets/bond.png" alt="Alt text" width="500" />
 
-### 📚 Run tests and coverage
-
-To test a few of our functions, insert the following code. 
-
-```
-(conda_env) $ pip install tox
-(conda_env) $ tox
-
+### 📚 Authors 
