@@ -109,7 +109,7 @@ If you wish to guess stereoisomers for molecules with double bond, please used t
 
 ### 📚 Authors 
 
-Developpers: 
+Developers: 
 - Catherina Carrer, student in chemistry and chemical engineering at EPFL [![GitHub](https://img.shields.io/badge/GitHub-CatherinaCarrer-black?style=flat&logo=github)](https://github.com/CatherinaCarrer)
 - Lucie Frenot, student in chemistry and chemical engineering at EPFL [![GitHub](https://img.shields.io/badge/GitHub-frenot-black?style=flat&logo=github)](https://github.com/frenot)
 - Mridhula Jayasankar, student in chemistry and chemical engineering at EPFL [![GitHub](https://img.shields.io/badge/GitHub-mridhula28-black?style=flat&logo=github)](https://github.com/mridhula28)
