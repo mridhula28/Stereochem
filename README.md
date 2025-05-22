@@ -8,7 +8,6 @@ StereoChem : Explore the world of isomers through a fun game 🎈
 </h1>
 
 <br>
-
 ### Collaborators: Catherina Carrer, Lucie Frenot, Mridhula Jayasankar ＆ Rania Doukkali
 #### Practical Programming in Chemistry @ EPFL
 
@@ -78,7 +77,7 @@ If they don't appear, please install them individually:
 ## 🔥 Usage 
 
 Once all the boring installation work is done, the fun can start!
-Open the `src` folder and open the `stereochem_project` file. Go to the terminal at type in: 
+Open the `src` folder and open the `stereochem_project` file. Go to the terminal and type in: 
 
 ```
 streamlit run StereoChem/src/stereochem/stereochem_project.py     
