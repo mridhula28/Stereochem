@@ -1,14 +1,7 @@
 ![Project Logo](assets/banner1.png)
-labelColor=blue)
 ![Static Badge](https://img.shields.io/badge/Github-black?style=for-the-badge&logo=Github&logoColor=white)
 ![Static Badge](https://img.shields.io/badge/Python-yellow?style=for-the-badge&logo=python&logoColor=yellow&labelColor=blue)
 ![Static Badge](https://img.shields.io/badge/Jupyter-orange?style=for-the-badge&logo=jupyter&logoColor=purple)
-
-
-![Static Badge](https://img.shields.io/badge/Github-black?logo=github)
-![Static Badge](https://img.shields.io/badge/Python-yellow?logo=python&logoColor=yellow&labelColor=blue)
-
-
 
 <h1 align="center">
 StereoChem : Explore the world of isomers through a fun game 🎈
@@ -49,8 +42,11 @@ Now lets create a folder in this environment and enter the folder! Once again yo
 
 ```
 mkdir teststereo
+```
+```
 cd teststereo
 ```
+
 Use the following line to clone the github repository: 
 
 ```
@@ -114,10 +110,10 @@ If you wish to guess stereoisomers for molecules with double bond, please used t
 ### 📚 Authors 
 
 Developpers: 
-- Catherina Carrer, student in chemistry and chemical engineering at EPFL [![GitHub](https://img.shields.io/badge/GitHub-CatherinaCarrer-black?style=for-the-badge&logo=github)](https://github.com/CatherinaCarrer)
-- Lucie Frenot, student in chemistry and chemical engineering at EPFL
-- Mridhula Jayasankar, student in chemistry and chemical engineering at EPFL
-- Rania Doukkali, student in chemistry and chemical engineering at EPFL
+- Catherina Carrer, student in chemistry and chemical engineering at EPFL [![GitHub](https://img.shields.io/badge/GitHub-CatherinaCarrer-black?style=flat&logo=github)](https://github.com/CatherinaCarrer)
+- Lucie Frenot, student in chemistry and chemical engineering at EPFL [![GitHub](https://img.shields.io/badge/GitHub-frenot-black?style=flat&logo=github)](https://github.com/frenot)
+- Mridhula Jayasankar, student in chemistry and chemical engineering at EPFL [![GitHub](https://img.shields.io/badge/GitHub-mridhula28-black?style=flat&logo=github)](https://github.com/mridhula28)
+- Rania Doukkali, student in chemistry and chemical engineering at EPFL [![GitHub](https://img.shields.io/badge/GitHub-RaniaDoukkali-black?style=flat&logo=github)](https://github.com/RaniaDoukkali)
 
 All developers contributed to the creation of the interface. The **stereoisomers** component of the code was primarily developed by **Lucie** and **Catherina**, while the **nomenclature**, **scoring system**, and **chronometer** were mainly implemented by **Rania**. The **chirality** functionality of tab 3 was developed by **Mridhula**. Additionally, the **Jupyter Notebook** and **testing scripts** were written by Lucie, Catherina and Rania. Finally, the **README** was authored by Mridhula.
 
