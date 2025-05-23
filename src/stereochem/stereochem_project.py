@@ -1,5 +1,3 @@
-import os
-import sys
 import time
 import streamlit as st
 import base64
@@ -7,8 +5,6 @@ from streamlit_ketcher import st_ketcher
 import pubchempy as pub
 from rdkit import Chem
 from rdkit.Chem import Draw
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from stereochem.functions import generate_isomers
 from stereochem.functions import update_input_molecule
 
